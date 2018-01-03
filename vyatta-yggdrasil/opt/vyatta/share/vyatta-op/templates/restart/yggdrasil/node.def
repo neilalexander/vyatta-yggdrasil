@@ -1,0 +1,2 @@
+help: Restart the specified yggdrasil interface
+allowed: ls /config/yggdrasil.*.conf | cut -d. -f2

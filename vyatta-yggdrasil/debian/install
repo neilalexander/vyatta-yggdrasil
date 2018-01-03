@@ -1,0 +1,2 @@
+opt/vyatta/sbin/* /opt/vyatta/sbin
+opt/vyatta/share/* /opt/vyatta/share

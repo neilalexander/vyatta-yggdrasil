@@ -1,0 +1,10 @@
+multi:
+type: ipv6net
+comp_help: Specifies which source IPv6 subnet ranges should be used for IPv6 masquerade. If you wish to NAT IPv4 IP tunnel traffic, then you should instead use "set service nat".
+help: Source IPv6 subnet from which to masquerade
+
+create: sudo ip6tables -t nat -A POSTROUTING -o $VAR(../../@) -s $VAR(@) -j MASQUERADE
+delete: sudo ip6tables -t nat -D POSTROUTING -o $VAR(../../@) -s $VAR(@) -j MASQUERADE
+
+syntax:expression: exec "stat /lib/xtables/libip6t_MASQUERADE.so &>/dev/null"; "IPv6 masquerade is not supported on this platform"
+commit:expression: exec "stat /lib/xtables/libip6t_MASQUERADE.so &>/dev/null"; "IPv6 masquerade is not supported on this platform"

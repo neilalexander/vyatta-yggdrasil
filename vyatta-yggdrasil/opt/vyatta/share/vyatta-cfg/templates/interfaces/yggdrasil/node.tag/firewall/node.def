@@ -1,0 +1,2 @@
+help: Firewall options
+comp_help: Firewall policies which should apply to the yggdrasil interface. The "local ipv6-name" chains will be triggered by traffic sent to your yggdrasil IPv6 address.

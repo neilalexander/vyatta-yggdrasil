@@ -1,0 +1,32 @@
+#!/bin/sh
+#
+# vyatta-yggdrasil - A yggdrasil package for Ubiquiti EdgeOS, VyOS and other
+# Vyatta-based systems.
+# Copyright (C) 2015 Neil Alexander T.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+if [ `ls /config/yggdrasil.*.conf 2>/dev/null | wc -l` -gt 0 ];
+then
+    ls /config/yggdrasil.*.conf | awk -v FS="(yggdrasil.|.conf)" '{print $3}' | while read file;
+    do
+        if [ `cat /var/run/yggdrasil.$file.pid | xargs pgrep -P 2>/dev/null | wc -l` -eq 0 ];
+        then
+            echo "The yggdrasil daemon for $file was not running, restarting..."
+            nohup nice -5 /opt/vyatta/sbin/yggdrasil -useconf &>/tmp/yggdrasil.$file.log < /config/yggdrasil.$file.conf &
+            echo $! > /var/run/yggdrasil.$file.pid
+        fi
+    done
+fi

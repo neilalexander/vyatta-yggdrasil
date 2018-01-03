@@ -1,0 +1,5 @@
+.DS_Store
+*.deb
+debian-binary
+*.tar.gz
+vyatta-yggdrasil/opt/vyatta/sbin/yggdrasil

@@ -1,5 +1,5 @@
 Package: vyatta-yggdrasil
-Version: 0.2
+Version: 0.1
 Section: contrib/net
 Priority: extra
 Architecture: mipsel

@@ -29,16 +29,13 @@ SBINDIR=$DESTDIR/sbin/
 
 BUILDDIR_YGG=/tmp/yggdrasil
 
-PKGARCH?=$(shell dpkg --print-architecture)
+PKGARCH?=mipsel
 BUILDNUMBER=$(shell git rev-list v$(RELEASE)..HEAD --count 2>/dev/null || echo 0)
 ifeq ($(BUILDNUMBER),0)
 VERSION=$(RELEASE)
 else
 VERSION=$(RELEASE).$(shell echo $(BUILDNUMBER) | bc)
 endif
-
-CFLAGS:=$(shell dpkg-buildflags --get CFLAGS)
-LDFLAGS:=$(shell dpkg-buildflags --get LDFLAGS)
 
 BRANCH?='master'
 ifneq ($(BRANCH),master)
@@ -54,8 +51,10 @@ build-cross: yggdrasilclone yggdrasilbuild-cross yggdrasilstage
 build-native: yggdrasilclone yggdrasilbuild-native yggdrasilstage
 
 package:
-	sed -i "s/^Architecture: .*/Architecture: $(PKGARCH)/" debian/control
-	sed -i "s/^Version: .*/Version: $(VERSION)$(BRANCHTAG)/" debian/control
+	sed -i "s/^Architecture: .*/Architecture: $(PKGARCH)/" debian/control || \
+		sed -i "" "s/^Architecture: .*/Architecture: $(PKGARCH)/" debian/control
+	sed -i "s/^Version: .*/Version: $(VERSION)$(BRANCHTAG)/" debian/control || \
+		sed -i "" "s/^Version: .*/Version: $(VERSION)$(BRANCHTAG)/" debian/control
 	tar czvf ../data.tar.gz opt
 	cd debian && tar czvf ../../control.tar.gz *
 	echo 2.0 > ../debian-binary

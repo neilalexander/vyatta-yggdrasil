@@ -23,7 +23,7 @@ then
     if [ `cat /var/run/yggdrasil.$1.pid 2>/dev/null | wc -l` -gt 0 ];
     then
         echo -n "Stopping yggdrasil interface $1... "
-        pkill -P `cat /var/run/yggdrasil.$1.pid 2>/dev/null`
+        pkill -2 -P `cat /var/run/yggdrasil.$1.pid 2>/dev/null`
         if [ $? -eq 0 ]; then rm -f /var/run/yggdrasil.$1.pid &>/dev/null; echo "OK.";
         else rm -f /var/run/yggdrasil.$1.pid &>/dev/null; echo "failed."; fi
     fi
@@ -39,7 +39,7 @@ else
     if [ `pgrep yggdrasil 2>/dev/null | wc -l` -gt 0 ];
     then
         echo -n "Stopping running yggdrasil interfaces... "
-        cat /var/run/yggdrasil.*.pid 2>/dev/null | xargs kill -P 2&>1
+        cat /var/run/yggdrasil.*.pid 2>/dev/null | xargs kill -2 -P 2&>1
         if [ $? -eq 0 ]; then rm -f /var/run/yggdrasil.*.pid &>/dev/null; echo "OK.";
         else rm -f /var/run/yggdrasil.$1.pid &>/dev/null; echo "failed."; fi
     fi

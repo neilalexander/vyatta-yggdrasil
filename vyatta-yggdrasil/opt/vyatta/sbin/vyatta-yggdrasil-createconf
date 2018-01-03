@@ -23,5 +23,5 @@ if [ -f /config/yggdrasil.$1.conf ]; then
 else
 	echo "yggdrasil generate conf: $1"
 
-	/opt/vyatta/sbin/yggdrasil -genconf | /config/yggdrasil.$1.conf
+	/opt/vyatta/sbin/yggdrasil -genconf > /config/yggdrasil.$1.conf
 fi

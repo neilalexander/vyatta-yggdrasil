@@ -31,10 +31,11 @@ BUILDDIR_YGG=/tmp/yggdrasil
 
 PKGARCH?=mipsel
 BUILDNUMBER=$(shell git rev-list v$(RELEASE)..HEAD --count 2>/dev/null || echo 0)
+REPOBUILDNUMBER=$(shell cd $(BUILDDIR_YGG) && git rev-list HEAD --count 2>/dev/null || echo 0)
 ifeq ($(BUILDNUMBER),0)
-VERSION=$(RELEASE)
+VERSION=$(RELEASE)-$(shell echo $(REPOBUILDNUMBER) | xargs printf "%04d")
 else
-VERSION=$(RELEASE).$(shell echo $(BUILDNUMBER) | bc)
+VERSION=$(RELEASE)-$(shell echo $(BUILDNUMBER) | bc).$(shell echo $(REPOBUILDNUMBER) | xargs printf "%04d")
 endif
 
 BRANCH?='master'

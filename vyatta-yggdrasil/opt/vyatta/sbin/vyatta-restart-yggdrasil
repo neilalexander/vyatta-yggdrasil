@@ -49,7 +49,7 @@ else
 
     if [ `ls /config/yggdrasil.*.conf 2>/dev/null | wc -l` -gt 0 ];
     then
-        ls /config/yggdrasil.*.conf | awk -v FS="(yggdrasil.|.conf)" '{print $2}' | while read file;
+        ls /config/yggdrasil.*.conf | awk -v FS="(yggdrasil.|.conf)" '{print $3}' | while read file;
         do
             echo -n "Starting yggdrasil interface $file... "
             nohup nice -5 /opt/vyatta/sbin/yggdrasil -useconf &>/tmp/yggdrasil.$1.log < /config/yggdrasil.$file.conf &

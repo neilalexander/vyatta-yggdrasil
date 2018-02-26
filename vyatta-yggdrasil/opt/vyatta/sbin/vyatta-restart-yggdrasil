@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-if [ -n $1 ];
+if [ ! -z $1 ];
 then
     if [ `cat /var/run/yggdrasil.$1.pid 2>/dev/null | wc -l` -gt 0 ];
     then
@@ -38,10 +38,13 @@ then
 else
     if [ `pgrep yggdrasil 2>/dev/null | wc -l` -gt 0 ];
     then
-        echo -n "Stopping running yggdrasil interfaces... "
-        (cat /var/run/yggdrasil.*.pid 2>/dev/null | xargs kill 2&>1)
-        if [ $? -eq 0 ]; then rm -f /var/run/yggdrasil.*.pid &>/dev/null; echo "OK.";
-        else rm -f /var/run/yggdrasil.$1.pid &>/dev/null; echo "failed."; fi
+	pgrep yggdrasil 2>/dev/null | while read pid;
+	do
+        	echo -n "Stopping running yggdrasil PID $pid... "
+		kill $pid
+        	if [ $? -eq 0 ]; then rm -f /var/run/yggdrasil.*.pid &>/dev/null; echo "OK.";
+        	else rm -f /var/run/yggdrasil.$1.pid &>/dev/null; echo "failed."; fi
+	done
     fi
 
     if [ `ls /config/yggdrasil.*.conf 2>/dev/null | wc -l` -gt 0 ];

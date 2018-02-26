@@ -71,7 +71,8 @@ yggdrasilclone:
 	touch /tmp/yggdrasil/yggdrasil
 
 yggdrasilbuild-cross:
-	cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='mipsle' ./build
+	@[ "$(PKGARCH)" = "mipsel" ] && (cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='mipsle' ./build) || true
+	@[ "$(PKGARCH)" = "mips" ] && (cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='mips64' ./build) || true
 
 yggdrasilbuild-native:
 	cd $(BUILDDIR_YGG) && GOOS='linux' ./build

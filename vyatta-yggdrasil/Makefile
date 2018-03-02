@@ -27,7 +27,7 @@ TEMPLATECFGDIR=$DESTDIR/share/vyatta-cfg/template
 TEMPLATEOPDIR=$DESTDIR/share/vyatta-op/template
 SBINDIR=$DESTDIR/sbin/
 
-BUILDDIR_YGG=/tmp/yggdrasil
+BUILDDIR_YGG?=/tmp/yggdrasil
 
 PKGARCH?=mipsel
 BUILDNUMBER=$(shell git rev-list v$(RELEASE)..HEAD --count 2>/dev/null || echo 0)
@@ -67,8 +67,8 @@ cleanpackage:
 	rm ../data.tar.gz
 
 yggdrasilclone:
-	git clone -b $(BRANCH) https://github.com/Arceliar/yggdrasil-go $(BUILDDIR_YGG)
-	touch /tmp/yggdrasil/yggdrasil
+	@[ "$(BUILDDIR_YGG)" = "/tmp/yggdrasil" ] && git clone -b $(BRANCH) https://github.com/neilalexander/yggdrasil-go $(BUILDDIR_YGG) || true
+	touch $(BUILDDIR_YGG)/yggdrasil
 
 yggdrasilbuild-cross:
 	@[ "$(PKGARCH)" = "mipsel" ] && (cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='mipsle' ./build) || true
@@ -82,6 +82,6 @@ yggdrasilstage:
 
 clean:
 	rm -rf sbin/yggdrasil
-	rm -rf $(BUILDDIR_YGG)
+	@[ "$(BUILDDIR_YGG)" = "/tmp/yggdrasil" ] && rm -rf $(BUILDDIR_YGG) || true
 
 distclean:	clean

@@ -35,7 +35,7 @@ REPOBUILDNUMBER=$(shell cd $(BUILDDIR_YGG) && git rev-list HEAD --count 2>/dev/n
 ifeq ($(BUILDNUMBER),0)
 VERSION=$(RELEASE)-$(shell echo $(REPOBUILDNUMBER) | xargs printf "%04d")
 else
-VERSION=$(RELEASE).$(shell echo $(BUILDNUMBER) | bc)-$(shell echo $(REPOBUILDNUMBER) | xargs printf "%04d")
+VERSION=$(RELEASE).$(shell echo $(BUILDNUMBER))-$(shell echo $(REPOBUILDNUMBER) | xargs printf "%04d")
 endif
 
 BRANCH?='master'

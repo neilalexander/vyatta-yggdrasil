@@ -38,7 +38,7 @@ else
 VERSION=$(RELEASE).$(shell echo $(BUILDNUMBER))-$(shell echo $(REPOBUILDNUMBER) | xargs printf "%04d")
 endif
 
-BRANCH?='master'
+BRANCH?=$(shell basename `git name-rev --name-only HEAD`)
 ifneq ($(BRANCH),master)
 BRANCHTAG=-$(BRANCH)
 endif
@@ -52,14 +52,20 @@ build-cross: yggdrasilclone yggdrasilbuild-cross yggdrasilstage
 build-native: yggdrasilclone yggdrasilbuild-native yggdrasilstage
 
 package:
-	sed -i "s/^Architecture: .*/Architecture: $(PKGARCH)/" debian/control || \
+	@sed -i "s/^Architecture: .*/Architecture: $(PKGARCH)/" debian/control || \
 		sed -i "" "s/^Architecture: .*/Architecture: $(PKGARCH)/" debian/control
-	sed -i "s/^Version: .*/Version: $(VERSION)$(BRANCHTAG)/" debian/control || \
-		sed -i "" "s/^Version: .*/Version: $(VERSION)$(BRANCHTAG)/" debian/control
+	@sed -i "s/^Version: .*/Version: $(VERSION)/" debian/control || \
+		sed -i "" "s/^Version: .*/Version: $(VERSION)/" debian/control
+	@if [ "$(BRANCH)" != "master" ]; then \
+		sed -i "s/^Package: .*/Package: $(PACKAGE)$(BRANCHTAG)/" debian/control || \
+			sed -i "" "s/^Package: .*/Package: $(PACKAGE)$(BRANCHTAG)/" debian/control; \
+	fi
+	@sed -i "/^Replaces/ d" debian/control || sed -i "" "/^Replaces/ d" debian/control
+	@[ "$(BRANCH)" != "master" ] && (echo "Replaces: vyatta-yggdrasil" >> debian/control) || true
 	tar czvf ../data.tar.gz opt
 	cd debian && tar czvf ../../control.tar.gz *
 	echo 2.0 > ../debian-binary
-	ar -r ../$(PACKAGE)-$(VERSION)$(BRANCHTAG)-$(PKGARCH).deb ../debian-binary ../control.tar.gz ../data.tar.gz
+	ar -r ../$(PACKAGE)$(BRANCHTAG)-$(VERSION)-$(PKGARCH).deb ../debian-binary ../control.tar.gz ../data.tar.gz
 
 cleanpackage:
 	rm ../debian-binary

@@ -73,7 +73,7 @@ cleanpackage:
 	rm ../data.tar.gz
 
 yggdrasilclone:
-	@[ "$(BUILDDIR_YGG)" = "/tmp/yggdrasil" ] && git clone -b $(BRANCH) https://github.com/neilalexander/yggdrasil-go $(BUILDDIR_YGG) || true
+	@[ "$(BUILDDIR_YGG)" = "/tmp/yggdrasil" ] && git clone -b $(BRANCH) https://github.com/yggdrasil-network/yggdrasil-go $(BUILDDIR_YGG) || true
 	touch $(BUILDDIR_YGG)/yggdrasil
 
 yggdrasilbuild-cross:

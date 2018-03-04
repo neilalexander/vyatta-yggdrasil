@@ -29,7 +29,11 @@ BUILDDIR_YGG?=/tmp/yggdrasil
 
 PKGARCH?=mipsel
 BUILDNUMBER=$(shell git rev-list HEAD --count 2>/dev/null  | xargs printf "%04d" || echo 0)
+ifeq (,$(wildcard $(BUILDDIR_YGG)/VERSION))
 REPOBUILDNUMBER=0.1.$(shell cd $(BUILDDIR_YGG) && git rev-list HEAD --count 2>/dev/null  | xargs printf "%04d" || echo 0)
+else
+REPOBUILDNUMBER=$(cat $(BUILDDIR_YGG)/VERSION).$(shell cd $(BUILDDIR_YGG) && git rev-list HEAD --count 2>/dev/null  | xargs printf "%04d" || echo 0)
+endif
 VERSION=$(REPOBUILDNUMBER)-$(BUILDNUMBER)
 BRANCH?=$(shell basename `git name-rev --name-only HEAD`)
 ifneq ($(BRANCH),master)

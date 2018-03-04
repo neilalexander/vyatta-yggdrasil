@@ -37,7 +37,7 @@ endif
 VERSION=$(REPOBUILDNUMBER)-$(BUILDNUMBER)
 BRANCH?=$(shell basename `git name-rev --name-only HEAD`)
 ifneq ($(BRANCH),master)
-BRANCHTAG=-$(BRANCH)
+BRANCHTAG=-$(shell echo $(BRANCH) | tr "/" "-")
 endif
 
 all: cross

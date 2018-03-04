@@ -19,8 +19,6 @@
 #
 
 PACKAGE=vyatta-yggdrasil
-RELEASE=0.1
-
 DESTDIR=/opt/vyatta
 
 TEMPLATECFGDIR=$DESTDIR/share/vyatta-cfg/template
@@ -30,7 +28,7 @@ SBINDIR=$DESTDIR/sbin/
 BUILDDIR_YGG?=/tmp/yggdrasil
 
 PKGARCH?=mipsel
-BUILDNUMBER=$(shell git rev-list v$(RELEASE)..HEAD --count 2>/dev/null  | xargs printf "%04d" || echo 0)
+BUILDNUMBER=$(shell git rev-list HEAD --count 2>/dev/null  | xargs printf "%04d" || echo 0)
 REPOBUILDNUMBER=0.1.$(shell cd $(BUILDDIR_YGG) && git rev-list HEAD --count 2>/dev/null  | xargs printf "%04d" || echo 0)
 VERSION=$(REPOBUILDNUMBER)-$(BUILDNUMBER)
 BRANCH?=$(shell basename `git name-rev --name-only HEAD`)

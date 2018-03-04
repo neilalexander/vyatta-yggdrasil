@@ -31,8 +31,8 @@ BUILDDIR_YGG?=/tmp/yggdrasil
 
 PKGARCH?=mipsel
 BUILDNUMBER=$(shell git rev-list v$(RELEASE)..HEAD --count 2>/dev/null  | xargs printf "%04d" || echo 0)
-REPOBUILDNUMBER=$(shell cd $(BUILDDIR_YGG) && git rev-list HEAD --count 2>/dev/null  | xargs printf "%04d" || echo 0)
-VERSION=$(REPOBUILDNUMBER)-p$(BUILDNUMBER)
+REPOBUILDNUMBER=0.1.$(shell cd $(BUILDDIR_YGG) && git rev-list HEAD --count 2>/dev/null  | xargs printf "%04d" || echo 0)
+VERSION=$(REPOBUILDNUMBER)-$(BUILDNUMBER)
 BRANCH?=$(shell basename `git name-rev --name-only HEAD`)
 ifneq ($(BRANCH),master)
 BRANCHTAG=-$(BRANCH)

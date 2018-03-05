@@ -28,17 +28,9 @@ SBINDIR=$DESTDIR/sbin/
 BUILDDIR_YGG?=/tmp/yggdrasil
 
 PKGARCH?=mipsel
-BUILDNUMBER=$(shell git rev-list HEAD --count 2>/dev/null  | xargs printf "%04d" || echo 0)
-ifeq (,$(wildcard $(BUILDDIR_YGG)/VERSION))
-REPOBUILDNUMBER=0.1.$(shell cd $(BUILDDIR_YGG) && git rev-list HEAD --count 2>/dev/null  | xargs printf "%04d" || echo 0)
-else
-REPOBUILDNUMBER=$(shell cat $(BUILDDIR_YGG)/VERSION).$(shell cd $(BUILDDIR_YGG) && git rev-list HEAD --count 2>/dev/null  | xargs printf "%04d" || echo 0)
-endif
-VERSION=$(REPOBUILDNUMBER)-$(BUILDNUMBER)
-BRANCH?=$(shell basename `git name-rev --name-only HEAD`)
-ifneq ($(BRANCH),master)
-BRANCHTAG=-$(shell echo $(BRANCH) | tr "/" "-")
-endif
+
+# cd $(BUILDDIR_YGG) && sh contrib/semver/version.sh | cut -c 2-
+# cd $(BUILDDIR_YGG) && sh contrib/semver/name.sh
 
 all: cross
 
@@ -51,18 +43,19 @@ build-native: yggdrasilclone yggdrasilbuild-native yggdrasilstage
 package:
 	@sed -i "s/^Architecture: .*/Architecture: $(PKGARCH)/" debian/control || \
 		sed -i "" "s/^Architecture: .*/Architecture: $(PKGARCH)/" debian/control
-	@sed -i "s/^Version: .*/Version: $(VERSION)/" debian/control || \
-		sed -i "" "s/^Version: .*/Version: $(VERSION)/" debian/control
+	@sed -i "s/^Version: .*/Version: $(shell cd $(BUILDDIR_YGG) && sh contrib/semver/version.sh | cut -c 2-)/" debian/control || \
+		sed -i "" "s/^Version: .*/Version: $(shell cd $(BUILDDIR_YGG) && sh contrib/semver/version.sh | cut -c 2-)/" debian/control
 	@if [ "$(BRANCH)" != "master" ]; then \
-		sed -i "s/^Package: .*/Package: $(PACKAGE)$(BRANCHTAG)/" debian/control || \
-			sed -i "" "s/^Package: .*/Package: $(PACKAGE)$(BRANCHTAG)/" debian/control; \
+		sed -i "s/^Package: .*/Package: vyatta-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/name.sh)/" debian/control || \
+			sed -i "" "s/^Package: .*/Package: vyatta-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/name.sh)/" debian/control; \
 	fi
 	@sed -i "/^Replaces/ d" debian/control || sed -i "" "/^Replaces/ d" debian/control
 	@[ "$(BRANCH)" != "master" ] && (echo "Replaces: vyatta-yggdrasil" >> debian/control) || true
+	@cat debian/control
 	tar czvf ../data.tar.gz opt
 	cd debian && tar czvf ../../control.tar.gz *
 	echo 2.0 > ../debian-binary
-	ar -r ../$(PACKAGE)$(BRANCHTAG)-$(VERSION)-$(PKGARCH).deb ../debian-binary ../control.tar.gz ../data.tar.gz
+	ar -r ../vyatta-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/name.sh)-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/version.sh | cut -c 2-)-$(PKGARCH).deb ../debian-binary ../control.tar.gz ../data.tar.gz
 
 cleanpackage:
 	rm ../debian-binary

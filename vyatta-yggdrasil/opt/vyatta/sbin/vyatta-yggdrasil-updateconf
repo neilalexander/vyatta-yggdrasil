@@ -11,14 +11,15 @@ with open('/config/yggdrasil.' + sys.argv[1] + '.conf') as data_file:
 def setRequiredConfiguration(interface):
     if data['IfName'] != "none":
         data['IfName'] = interface
-        data['IfTAPMode'] = false
+        data['IfTAPMode'] = False
 
 def addPeer(peer):
     deletePeer(peer)
     data['Peers'].append(peer)
 
 def deletePeer(peer):
-    data['Peers'].remove(peer)
+    if peer in data['Peers']:
+        data['Peers'].remove(peer)
 
 def updateMulticast(enabled):
     data['Multicast'] = (enabled == "true")

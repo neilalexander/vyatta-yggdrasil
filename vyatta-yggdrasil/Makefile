@@ -48,6 +48,9 @@ package:
 	@if [ "$(BRANCH)" != "master" ]; then \
 		sed -i "s/^Package: .*/Package: vyatta-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/name.sh)/" debian/control || \
 			sed -i "" "s/^Package: .*/Package: vyatta-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/name.sh)/" debian/control; \
+	else \
+		sed -i "s/^Package: .*/Package: vyatta-yggdrasil/" debian/control || \
+			sed -i "" "s/^Package: .*/Package: vyatta-yggdrasil/" debian/control; \
 	fi
 	@sed -i "/^Replaces/ d" debian/control || sed -i "" "/^Replaces/ d" debian/control
 	@[ "$(BRANCH)" != "master" ] && (echo "Replaces: vyatta-yggdrasil" >> debian/control) || true

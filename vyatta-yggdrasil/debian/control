@@ -1,5 +1,5 @@
-Package: vyatta-yggdrasil-semver
-Version: 0.1.1-5
+Package: vyatta-yggdrasil
+Version: 0.1.96
 Section: contrib/net
 Priority: extra
 Architecture: mipsel
@@ -8,4 +8,3 @@ Depends: vyatta-cfg-system, vyatta-cfg, vyatta-op
 Description: Vyatta yggdrasil package
  Binary yggdrasil package for Vyatta platforms such as
  the Ubiquiti EdgeRouter X and EdgeRouter Lite
-Replaces: vyatta-yggdrasil

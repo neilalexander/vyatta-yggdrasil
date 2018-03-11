@@ -1,0 +1,10 @@
+type: u32
+help: Maximum Transmission Unit (MTU)
+comp_help: The maximum possible MTU to use over the Yggdrasil link
+val_help: u32; MTU (1280-65535)
+
+priority: 999
+
+create: /opt/vyatta/sbin/vyatta-yggdrasil-updateconf $VAR(../@) updateMTU $VAR(@)
+update: /opt/vyatta/sbin/vyatta-yggdrasil-updateconf $VAR(../@) updateMTU $VAR(@)
+delete: /opt/vyatta/sbin/vyatta-yggdrasil-updateconf $VAR(../@) updateMTU 65535

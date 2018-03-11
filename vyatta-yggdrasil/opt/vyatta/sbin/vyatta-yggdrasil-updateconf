@@ -24,10 +24,14 @@ def deletePeer(peer):
 def updateMulticast(enabled):
     data['Multicast'] = (enabled == "true")
 
+def updateMTU(mtu):
+    data['IfMTU'] = min(65535, max(1280, abs(int(mtu))))
+
 try:
     if sys.argv[2] == "addPeer": addPeer(sys.argv[3])
     if sys.argv[2] == "deletePeer": deletePeer(sys.argv[3])
     if sys.argv[2] == "updateMulticast": updateMulticast(sys.argv[3])
+    if sys.argv[2] == "updateMTU": updateMTU(sys.argv[3])
 except IndexError:
     print "Incorrect number of parameters supplied"
 finally:

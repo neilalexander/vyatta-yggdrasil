@@ -68,6 +68,7 @@ cleanpackage:
 yggdrasilclone:
 	@[ "$(BUILDDIR_YGG)" = "/tmp/yggdrasil" ] && git clone -b $(BRANCH) https://github.com/yggdrasil-network/yggdrasil-go $(BUILDDIR_YGG) || true
 	touch $(BUILDDIR_YGG)/yggdrasil
+	touch $(BUILDDIR_YGG)/yggdrasilctl
 
 yggdrasilbuild-cross:
 	@[ "$(PKGARCH)" = "mipsel" ] && (cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='mipsle' ./build) || true
@@ -78,6 +79,7 @@ yggdrasilbuild-native:
 
 yggdrasilstage:
 	cp $(BUILDDIR_YGG)/yggdrasil opt/vyatta/sbin/yggdrasil
+	cp $(BUILDDIR_YGG)/yggdrasilctl opt/vyatta/sbin/yggdrasilctl
 
 clean:
 	rm -rf sbin/yggdrasil

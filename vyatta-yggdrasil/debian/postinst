@@ -1,3 +1,4 @@
 #!/bin/sh
 
+ln -s /opt/vyatta/sbin/yggdrasilctl /usr/local/bin/yggdrasilctl
 /opt/vyatta/sbin/vyatta-restart-yggdrasil

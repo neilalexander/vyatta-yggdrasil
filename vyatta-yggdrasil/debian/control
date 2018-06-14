@@ -3,6 +3,7 @@ Version: 0.1.96
 Section: contrib/net
 Priority: extra
 Architecture: mipsel
+Replaces: vyatta-yggdrasil | vyatta-yggdrasil-develop
 Maintainer: Neil Alexander <neilalexander@noreply.users.github.com>
 Depends: vyatta-cfg-system, vyatta-cfg, vyatta-op
 Description: Vyatta yggdrasil package

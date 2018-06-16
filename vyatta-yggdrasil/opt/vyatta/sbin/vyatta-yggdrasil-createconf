@@ -19,9 +19,11 @@
 #
 
 if [ -f /config/yggdrasil.$1.conf ]; then
-	echo "yggdrasil generate conf: /config/yggdrasil.$1.conf already exists, leaving alone"
+	echo "Yggdrasil config /config/yggdrasil.$1.conf already exists, leaving alone"
 else
-	echo "yggdrasil generate conf: $1"
+	echo "Generating yggdrasil config for $1..."
+	echo "To make configuration changes, modify the /config/yggdrasil.$1.conf file"
+	echo "and then issue a 'restart yggdrasil $1' operational command."
 
 	/opt/vyatta/sbin/yggdrasil -genconf > /config/yggdrasil.$1.conf
 fi

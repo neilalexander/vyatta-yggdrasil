@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cp /config/yggdrasil.$1.conf /config/yggdrasil.$1.conf.tmp
+/opt/vyatta/sbin/yggdrasilconf -useconffile /config/yggdrasil.$1.conf.tmp $2 $3 >  /config/yggdrasil.$1.conf
+rm /config/yggdrasil.$1.conf.tmp

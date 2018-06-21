@@ -6,7 +6,7 @@ val_help: txt; Interface name (i.e. tun0)
 priority: 998
 
 create: /opt/vyatta/sbin/vyatta-yggdrasil-createconf $VAR(@)
-update: /opt/vyatta/sbin/yggdrasilconf -useconffile /config/yggdrasil.$VAR(@).conf setIfName $VAR(@) > /config/yggdrasil.$VAR(@).conf
+update: /opt/vyatta/sbin/vyatta-yggdrasil-updateconf $VAR(@) setIfName $VAR(@)
 end: sudo /opt/vyatta/sbin/vyatta-restart-yggdrasil $VAR(@)
 
 syntax:expression: pattern $VAR(@) "^tun[0-9]+$" \

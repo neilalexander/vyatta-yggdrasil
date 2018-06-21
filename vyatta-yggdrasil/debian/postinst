@@ -1,4 +1,19 @@
 #!/bin/sh
 
+for f in /config/yggdrasil.*.conf
+do
+  if [ "$f" == "/config/yggdrasil.*.conf" ];
+  then
+    continue
+  fi
+
+  mkdir -p /var/backups
+  echo "Backing up configuration file to $f.`date +%Y%m%d`"
+  cp $f $f.`date +%Y%m%d`
+  echo "Normalising $f"
+  /usr/bin/yggdrasil -useconffile $f.`date +%Y%m%d` -normaliseconf > $f
+done
+
+ln -s /opt/vyatta/sbin/yggdrasilconf /usr/local/bin/yggdrasilconf
 ln -s /opt/vyatta/sbin/yggdrasilctl /usr/local/bin/yggdrasilctl
 /opt/vyatta/sbin/vyatta-restart-yggdrasil

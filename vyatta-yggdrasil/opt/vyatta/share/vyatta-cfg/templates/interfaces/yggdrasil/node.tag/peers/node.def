@@ -6,5 +6,5 @@ val_help: txt; Peer address and port
 
 priority: 999
 
-create: /opt/vyatta/sbin/yggdrasilconf -useconffile /config/yggdrasil.$VAR(../@).conf addPeer $VAR(@) > /config/yggdrasil.$VAR(../@).conf
-delete: /opt/vyatta/sbin/yggdrasilconf -useconffile /config/yggdrasil.$VAR(../@).conf removePeer $VAR(@) > /config/yggdrasil.$VAR(../@).conf
+create: /opt/vyatta/sbin/vyatta-yggdrasil-updateconf $VAR(../@) addPeer $VAR(@)
+delete: /opt/vyatta/sbin/vyatta-yggdrasil-updateconf $VAR(../@) removePeer $VAR(@)

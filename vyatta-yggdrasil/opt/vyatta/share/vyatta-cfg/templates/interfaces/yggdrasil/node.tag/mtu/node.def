@@ -5,6 +5,6 @@ val_help: u32; MTU (1280-65535)
 
 priority: 999
 
-create: /opt/vyatta/sbin/vyatta-yggdrasil-updateconf $VAR(../@) updateMTU $VAR(@)
-update: /opt/vyatta/sbin/vyatta-yggdrasil-updateconf $VAR(../@) updateMTU $VAR(@)
-delete: /opt/vyatta/sbin/vyatta-yggdrasil-updateconf $VAR(../@) updateMTU 65535
+create: /opt/vyatta/sbin/yggdrasilconf -useconffile /config/yggdrasil.$VAR(../@).conf setMTU $VAR(@) > /config/yggdrasil.$VAR(../@).conf
+update: /opt/vyatta/sbin/yggdrasilconf -useconffile /config/yggdrasil.$VAR(../@).conf setMTU $VAR(@) > /config/yggdrasil.$VAR(../@).conf
+delete: /opt/vyatta/sbin/yggdrasilconf -useconffile /config/yggdrasil.$VAR(../@).conf setMTU 65535 > /config/yggdrasil.$VAR(../@).conf

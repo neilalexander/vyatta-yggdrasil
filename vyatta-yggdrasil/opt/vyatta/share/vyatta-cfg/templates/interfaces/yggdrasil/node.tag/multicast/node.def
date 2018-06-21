@@ -5,6 +5,6 @@ val_help: bool; Multicast enabled
 
 priority: 999
 
-create: /opt/vyatta/sbin/vyatta-yggdrasil-updateconf $VAR(../@) updateMulticast $VAR(@)
-update: /opt/vyatta/sbin/vyatta-yggdrasil-updateconf $VAR(../@) updateMulticast $VAR(@)
-delete: /opt/vyatta/sbin/vyatta-yggdrasil-updateconf $VAR(../@) updateMulticast false
+create: echo "Not supported, please edit MulticastInterfaces in /config/yggdrasil.$VAR(../@).conf"
+update: echo "Not supported, please edit MulticastInterfaces in /config/yggdrasil.$VAR(../@).conf"
+delete: echo "Not supported, please edit MulticastInterfaces in /config/yggdrasil.$VAR(../@).conf"

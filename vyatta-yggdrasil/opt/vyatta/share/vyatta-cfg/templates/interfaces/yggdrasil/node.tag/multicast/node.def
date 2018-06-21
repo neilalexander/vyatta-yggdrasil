@@ -1,0 +1,10 @@
+type: bool
+help: Multicast node discovery enabled
+comp_help: When multicast node discovery is enabled, Yggdrasil will automatically establish peerings with other nodes on the same subnet
+val_help: bool; Multicast enabled
+
+priority: 999
+
+create: /opt/vyatta/sbin/vyatta-yggdrasil-updateconf $VAR(../@) updateMulticast $VAR(@)
+update: /opt/vyatta/sbin/vyatta-yggdrasil-updateconf $VAR(../@) updateMulticast $VAR(@)
+delete: /opt/vyatta/sbin/vyatta-yggdrasil-updateconf $VAR(../@) updateMulticast false

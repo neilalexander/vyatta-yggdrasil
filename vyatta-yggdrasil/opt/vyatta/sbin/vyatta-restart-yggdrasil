@@ -20,41 +20,37 @@
 
 if [ ! -z $1 ];
 then
-    if [ `cat /var/run/yggdrasil.$1.pid 2>/dev/null | wc -l` -gt 0 ];
+    if [ `pgrep -fc "yggdrasil -useconffile.*$1"` -gt 0 ];
     then
-        echo -n "Stopping yggdrasil interface $1... "
-        kill `cat /var/run/yggdrasil.$1.pid 2>/dev/null`
-        if [ $? -eq 0 ]; then rm -f /var/run/yggdrasil.$1.pid &>/dev/null; echo "OK.";
-        else rm -f /var/run/yggdrasil.$1.pid &>/dev/null; echo "failed."; fi
+        pgrep -f "yggdrasil -useconffile.*$1" | while read pid;
+        do
+            echo -n "Stopping yggdrasil interface $1... "
+            kill $pid
+            if [ $? -eq 0 ]; then echo "OK."; else echo "failed."; fi
+        done
     fi
 
-    if [ `ls /config/yggdrasil.*.conf 2>/dev/null | wc -l` -gt 0 ];
+    if [ `ls /config/yggdrasil.$1.conf 2>/dev/null | wc -l` -gt 0 ];
     then
         echo -n "Starting yggdrasil interface $1... "
-        nohup nice -5 /opt/vyatta/sbin/yggdrasil -useconf &>/tmp/yggdrasil.$1.log < /config/yggdrasil.$1.conf &
-        if [ $? -eq 0 ]; then echo $! > /var/run/yggdrasil.$1.pid; echo "OK.";
-        else rm -f /var/run/yggdrasil.$1.pid &>/dev/null; echo "failed."; fi
+        nohup nice -5 /opt/vyatta/sbin/yggdrasil -useconffile /config/yggdrasil.$1.conf >/tmp/yggdrasil.$1.log & disown
+        if [ $? -eq 0 ]; then echo "OK."; else echo "failed."; fi
     fi
 else
-    if [ `pgrep yggdrasil 2>/dev/null | wc -l` -gt 0 ];
-    then
-	pgrep yggdrasil 2>/dev/null | while read pid;
-	do
-        	echo -n "Stopping running yggdrasil PID $pid... "
-		kill $pid
-        	if [ $? -eq 0 ]; then rm -f /var/run/yggdrasil.*.pid &>/dev/null; echo "OK.";
-        	else rm -f /var/run/yggdrasil.$1.pid &>/dev/null; echo "failed."; fi
-	done
-    fi
+    pgrep -f "yggdrasil -useconffile" | while read pid;
+    do
+        echo -n "Stopping yggdrasil interface $1... "
+        kill $pid
+        if [ $? -eq 0 ]; then echo "OK."; else echo "failed."; fi
+    done
 
     if [ `ls /config/yggdrasil.*.conf 2>/dev/null | wc -l` -gt 0 ];
     then
         ls /config/yggdrasil.*.conf | awk -v FS="(yggdrasil.|.conf)" '{print $3}' | while read file;
         do
             echo -n "Starting yggdrasil interface $file... "
-            nohup nice -5 /opt/vyatta/sbin/yggdrasil -useconf &>/tmp/yggdrasil.$1.log < /config/yggdrasil.$file.conf &
-            if [ $? -eq 0 ]; then echo $! > /var/run/yggdrasil.$file.pid; echo "OK.";
-            else rm -f /var/run/yggdrasil.$1.pid &>/dev/null; echo "failed."; fi
+            nohup nice -5 /opt/vyatta/sbin/yggdrasil -useconffile /config/yggdrasil.$file.conf >/tmp/yggdrasil.$1.log & disown
+            if [ $? -eq 0 ]; then echo "OK."; else echo "failed."; fi
         done
     fi
 fi

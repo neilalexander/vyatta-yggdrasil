@@ -22,11 +22,10 @@ if [ `ls /config/yggdrasil.*.conf 2>/dev/null | wc -l` -gt 0 ];
 then
     ls /config/yggdrasil.*.conf | awk -v FS="(yggdrasil.|.conf)" '{print $3}' | while read file;
     do
-        if [ `cat /var/run/yggdrasil.$file.pid | xargs pgrep -P 2>/dev/null | wc -l` -eq 0 ];
+        if [ `pgrep -fc "yggdrasil -useconffile.*$1"` -eq 0 ];
         then
             echo "The yggdrasil daemon for $file was not running, restarting..."
-            nohup nice -5 /opt/vyatta/sbin/yggdrasil -useconf &>/tmp/yggdrasil.$file.log < /config/yggdrasil.$file.conf &
-            echo $! > /var/run/yggdrasil.$file.pid
+            nohup nice -5 /opt/vyatta/sbin/yggdrasil -useconffile /config/yggdrasil.$file.conf >/tmp/yggdrasil.$file.log & disown
         fi
     done
 fi

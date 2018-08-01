@@ -14,6 +14,6 @@ do
   /opt/vyatta/sbin/yggdrasil -useconffile $f.`date +%Y%m%d` -normaliseconf > $f
 done
 
-ln -s /opt/vyatta/sbin/yggdrasilconf /usr/local/bin/yggdrasilconf
-ln -s /opt/vyatta/sbin/yggdrasilctl /usr/local/bin/yggdrasilctl
+ln -fs /opt/vyatta/sbin/yggdrasilconf /usr/local/bin/yggdrasilconf
+ln -fs /opt/vyatta/sbin/yggdrasilctl /usr/local/bin/yggdrasilctl
 /opt/vyatta/sbin/vyatta-restart-yggdrasil

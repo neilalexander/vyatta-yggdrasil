@@ -43,8 +43,8 @@ build-native: yggdrasilclone yggdrasilbuild-native yggdrasilconfbuild-native ygg
 package:
 	@sed -i "s/^Architecture: .*/Architecture: $(PKGARCH)/" debian/control || \
 		sed -i "" "s/^Architecture: .*/Architecture: $(PKGARCH)/" debian/control
-	@sed -i "s/^Version: .*/Version: $(shell cd $(BUILDDIR_YGG) && sh contrib/semver/version.sh | cut -c 2-)/" debian/control || \
-		sed -i "" "s/^Version: .*/Version: $(shell cd $(BUILDDIR_YGG) && sh contrib/semver/version.sh | cut -c 2-)/" debian/control
+	@sed -i "s/^Version: .*/Version: $(shell cd $(BUILDDIR_YGG) && sh contrib/semver/version.sh --bare)/" debian/control || \
+		sed -i "" "s/^Version: .*/Version: $(shell cd $(BUILDDIR_YGG) && sh contrib/semver/version.sh --bare)/" debian/control
 	@if [ "$(BRANCH)" != "master" ]; then \
 		sed -i "s/^Package: .*/Package: vyatta-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/name.sh)/" debian/control || \
 			sed -i "" "s/^Package: .*/Package: vyatta-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/name.sh)/" debian/control; \
@@ -58,7 +58,7 @@ package:
 	tar czvf ../data.tar.gz opt
 	cd debian && tar czvf ../../control.tar.gz *
 	echo 2.0 > ../debian-binary
-	ar -r ../vyatta-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/name.sh)-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/version.sh | cut -c 2-)-$(PKGARCH).deb ../debian-binary ../control.tar.gz ../data.tar.gz
+	ar -r ../vyatta-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/name.sh)-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/version.sh --bare)-$(PKGARCH).deb ../debian-binary ../control.tar.gz ../data.tar.gz
 
 cleanpackage:
 	rm ../debian-binary

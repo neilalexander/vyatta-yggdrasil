@@ -83,7 +83,7 @@ yggdrasilconfbuild-cross:
 	@[ "$(PKGARCH)" = "mips" ] && (cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='mips64' GOPATH=$(BUILDDIR_YGG) go build contrib/config/yggdrasilconf.go) || true
 
 yggdrasilconfbuild-native:
-	cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='mipsle' go build contrib/config/yggdrasilconf.go
+	cd $(BUILDDIR_YGG) && GOOS='linux' GOPATH=$PWD/contrib/config GOARCH='mipsle' go build contrib/config/yggdrasilconf.go
 
 
 yggdrasilstage:

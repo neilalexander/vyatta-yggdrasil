@@ -74,6 +74,8 @@ yggdrasilclone:
 yggdrasilbuild-cross:
 	@[ "$(PKGARCH)" = "mipsel" ] && (cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='mipsle' ./build) || true
 	@[ "$(PKGARCH)" = "mips" ] && (cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='mips64' ./build) || true
+	@[ "$(PKGARCH)" = "amd64" ] && (cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='amd64' ./build) || true
+	@[ "$(PKGARCH)" = "i386" ] && (cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='386' ./build) || true
 
 yggdrasilbuild-native:
 	cd $(BUILDDIR_YGG) && GOOS='linux' ./build
@@ -81,9 +83,11 @@ yggdrasilbuild-native:
 yggdrasilconfbuild-cross:
 	@[ "$(PKGARCH)" = "mipsel" ] && (cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='mipsle' go build contrib/config/yggdrasilconf.go) || true
 	@[ "$(PKGARCH)" = "mips" ] && (cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='mips64' go build contrib/config/yggdrasilconf.go) || true
+	@[ "$(PKGARCH)" = "amd64" ] && (cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='amd64' go build contrib/config/yggdrasilconf.go) || true
+	@[ "$(PKGARCH)" = "i386" ] && (cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='386' go build contrib/config/yggdrasilconf.go) || true
 
 yggdrasilconfbuild-native:
-	cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='mipsle' go build contrib/config/yggdrasilconf.go || true
+	cd $(BUILDDIR_YGG) && GOOS='linux' go build contrib/config/yggdrasilconf.go || true
 
 yggdrasilstage:
 	cp $(BUILDDIR_YGG)/yggdrasil opt/vyatta/sbin/yggdrasil

@@ -24,5 +24,5 @@ else
 	echo "yggdrasil generate conf: $1"
 
 	/opt/vyatta/sbin/yggdrasil -genconf > /config/yggdrasil.$1.conf
-	/opt/vyatta/sbin/yggdrasilconf -useconffile /config/yggdrasil.$1.conf setIfName $1 > /config/yggdrasil.$1.conf
+	sed -i "s/IfName: auto/IfName: $1/" /config/yggdrasil.$1.conf
 fi

@@ -33,7 +33,7 @@ then
     if [ `ls /config/yggdrasil.$1.conf 2>/dev/null | wc -l` -gt 0 ];
     then
         echo -n "Starting yggdrasil interface $1... "
-        setsid nice -5 /opt/vyatta/sbin/yggdrasil -useconffile /config/yggdrasil.$1.conf >/tmp/yggdrasil.$1.log & disown
+        setsid nice -5 /opt/vyatta/sbin/yggdrasil -useconffile /config/yggdrasil.$1.conf >/tmp/yggdrasil.$1.log 2>&1 & disown
         if [ $? -eq 0 ]; then echo "OK."; else echo "failed."; fi
     fi
 else
@@ -49,7 +49,7 @@ else
         ls /config/yggdrasil.*.conf | awk -v FS="(yggdrasil.|.conf)" '{print $3}' | while read file;
         do
             echo -n "Starting yggdrasil interface $file... "
-            setsid nice -5 /opt/vyatta/sbin/yggdrasil -useconffile /config/yggdrasil.$file.conf >/tmp/yggdrasil.$1.log & disown
+            setsid nice -5 /opt/vyatta/sbin/yggdrasil -useconffile /config/yggdrasil.$file.conf >/tmp/yggdrasil.$file.log 2>&1 & disown
             if [ $? -eq 0 ]; then echo "OK."; else echo "failed."; fi
         done
     fi

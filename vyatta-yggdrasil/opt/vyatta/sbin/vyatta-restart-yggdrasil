@@ -27,13 +27,13 @@ then
             echo -n "Stopping yggdrasil interface $1... "
             kill $pid
             secs=1
-            while [[ `kill -0 $pid 2>/dev/null` -eq 0 ]] && [ $secs -le 5 ];
+            while kill -0 $pid 2>/dev/null && [ $secs -le 5 ];
             do
                 echo -n "$secs... "
                 sleep 1
                 ((secs++))
             done
-            if [[ `kill -0 $pid 2>/dev/null` -eq 0 ]];
+            if kill -0 $pid 2>/dev/null;
             then
               kill -9 $pid 2>/dev/null
               echo "Killed."
@@ -54,13 +54,13 @@ else
     do
         echo -n "Stopping yggdrasil interface $1... "
         secs=1
-        while [[ `kill -0 $pid 2>/dev/null` -eq 0 ]] && [ $secs -le 5 ];
+        while kill -0 $pid 2>/dev/null && [ $secs -le 5 ];
         do
             echo -n "$secs... "
             sleep 1
             ((secs++))
         done
-        if [[ `kill -0 $pid 2>/dev/null` -eq 0 ]];
+        if kill -0 $pid 2>/dev/null;
         then
           kill -9 $pid 2>/dev/null
           echo "Killed."

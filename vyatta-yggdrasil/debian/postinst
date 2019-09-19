@@ -15,4 +15,4 @@ do
 done
 
 ln -fs /opt/vyatta/sbin/yggdrasilctl /usr/local/bin/yggdrasilctl
-sudo -u root -g users /opt/vyatta/sbin/vyatta-restart-yggdrasil
+sg users -c "/opt/vyatta/sbin/vyatta-restart-yggdrasil"

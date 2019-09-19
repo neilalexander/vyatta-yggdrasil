@@ -52,7 +52,7 @@ then
 else
     pgrep -f "yggdrasil -useconffile" | while read pid;
     do
-        echo -n "Stopping yggdrasil interface $1... "
+        echo -n "Stopping yggdrasil interface... "
         secs=1
         while kill -0 $pid 2>/dev/null && [ $secs -le 5 ];
         do

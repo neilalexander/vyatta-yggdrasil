@@ -10,7 +10,6 @@ create: /opt/vyatta/sbin/vyatta-yggdrasil-createconf $VAR(@);
         sudo systemctl start yggdrasil@$VAR(@)
 delete: sudo systemctl stop yggdrasil@$VAR(@);
         sudo systemctl disable yggdrasil@$VAR(@)
-end: sudo -u root -g users /opt/vyatta/sbin/vyatta-restart-yggdrasil $VAR(@)
 
 syntax:expression: pattern $VAR(@) "^tun[0-9]+$" \
          ; "Interface name must be (tun0-tun99)"

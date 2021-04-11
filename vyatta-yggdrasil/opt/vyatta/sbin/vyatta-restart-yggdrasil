@@ -27,7 +27,7 @@ else
     then
         ls /config/yggdrasil.*.conf | awk -v FS="(yggdrasil.|.conf)" '{print $3}' | while read file;
         do
-            echo "Restarting yggdrasil interface $1..."
+            echo "Restarting yggdrasil interface $file..."
             systemctl restart yggdrasil@$file
         done
     fi

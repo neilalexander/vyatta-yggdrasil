@@ -6,10 +6,10 @@ val_help: txt; Interface name (i.e. tun0)
 priority: 998
 
 create: /opt/vyatta/sbin/vyatta-yggdrasil-createconf $VAR(@);
-        systemctl enable yggdrasil@$VAR(@);
-        systemctl start yggdrasil@$VAR(@)
-delete: systemctl stop yggdrasil@$VAR(@);
-        systemctl disable yggdrasil@$VAR(@)
+        sudo systemctl enable yggdrasil@$VAR(@);
+        sudo systemctl start yggdrasil@$VAR(@)
+delete: sudo systemctl stop yggdrasil@$VAR(@);
+        sudo systemctl disable yggdrasil@$VAR(@)
 end: sudo -u root -g users /opt/vyatta/sbin/vyatta-restart-yggdrasil $VAR(@)
 
 syntax:expression: pattern $VAR(@) "^tun[0-9]+$" \

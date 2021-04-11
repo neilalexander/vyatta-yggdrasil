@@ -2,13 +2,16 @@
 
 ### Introduction
 
-The `vyatta-yggdrasil` package provides yggdrasil support on supported Ubiquiti EdgeMAX, VyOS and potentially other Vyatta-based routers.  It is integrated with the command line interface (CLI) allowing yggdrasil to be configured through the standard configuration system.
+The `vyatta-yggdrasil` package provides yggdrasil support on supported Ubiquiti EdgeOS 2.x, VyOS 1.3 and potentially other Vyatta-based routers.  It is integrated with the command line interface (CLI) allowing yggdrasil to be configured through the standard configuration system.
 
 ### Compatibility
 
-|                       | Architecture | Compatible |                      Notes                                    |
-|-----------------------|:------------:|:----------:|:-------------------------------------------------------------:|
-|    EdgeRouter X (ERX) |    mipsel    |     Yes    |                                                               |
+|                                  | Architecture | Tested |                      Notes                                    |
+|----------------------------------|:------------:|:------:|:-------------------------------------------------------------:|
+|    EdgeRouter X (ER-X/ER-X-SFP)  |    mipsel    |  Yes   | Tested with EdgeOS 2.0.9, requires EdgeOS 2.x                 |
+|    EdgeRouter (ER-Lite/ER-4 etc) |    mips      |  No    | Requires EdgeOS 2.x                                           |
+|    VyOS                          |    amd64     |  Yes   | Tested with VyOS 1.3-rolling-202101                           |
+|    VyOS                          |    i386      |  No    |                                                               |
 
 ### Install / Upgrade
 

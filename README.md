@@ -1,8 +1,8 @@
-# yggdrasil for Ubiquiti EdgeOS / VyOS
+# Yggdrasil for Ubiquiti EdgeOS / VyOS
 
 ### Introduction
 
-The `vyatta-yggdrasil` package provides yggdrasil support on supported Ubiquiti EdgeOS 2.x, VyOS 1.3 and potentially other Vyatta-based routers.  It is integrated with the command line interface (CLI) allowing yggdrasil to be configured through the standard configuration system.
+This package provides yggdrasil support on supported Ubiquiti EdgeOS 2.x, VyOS 1.3 and potentially other Vyatta-based routers.  It is integrated with the command line interface (CLI) allowing yggdrasil to be configured through the standard configuration system.
 
 ### Compatibility
 
@@ -17,11 +17,8 @@ The `vyatta-yggdrasil` package provides yggdrasil support on supported Ubiquiti 
 
 Either download or build a release and copy it to the router, then install/upgrade it:
 ```
-sudo dpkg -i vyatta-yggdrasil-x.x.x-xxxxxx.deb
-```
-If you are upgrading from a previous release of `vyatta-yggdrasil`, then restart yggdrasil once the upgraded package is installed (replacing `tunX` with your chosen TUN adapter):
-```
-restart yggdrasil tunX
+sudo dpkg -i yggdrasil-edgeos2x-x.x.x-xxxxxx.deb # EdgeOS
+sudo dpkg -i yggdrasil-vyos13-x.x.x-xxxxxx.deb   # VyOS
 ```
 
 ### Initial

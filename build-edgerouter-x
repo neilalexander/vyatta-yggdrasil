@@ -21,5 +21,5 @@
 echo "Building vyatta-yggdrasil..."
 BRANCH=$1; [ -z "${BRANCH}" ] && BRANCH=master
 cd vyatta-yggdrasil && \
-    BRANCH=${BRANCH} PKGARCH=mipsel make cross -e && \
+    BRANCH=${BRANCH} PKGNAME=yggdrasil-edgeos2x PKGARCH=mipsel make cross -e && \
     cd ..

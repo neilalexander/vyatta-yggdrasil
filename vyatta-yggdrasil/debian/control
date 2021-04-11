@@ -1,10 +1,11 @@
-Package: vyatta-yggdrasil
+Package: yggdrasil-edgeos2x
 Version: 0.3.16
 Section: contrib/net
 Priority: extra
 Architecture: mipsel
 Maintainer: Neil Alexander <neilalexander@noreply.users.github.com>
 Depends: vyatta-cfg-system, vyatta-cfg, vyatta-op
+Replaces: vyatta-yggdrasil, vyatta-yggdrasil-develop
 Description: Vyatta yggdrasil package
  Binary yggdrasil package for Vyatta platforms such as
  the Ubiquiti EdgeRouter X and EdgeRouter Lite

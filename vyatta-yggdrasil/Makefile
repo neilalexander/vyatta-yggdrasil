@@ -18,8 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-PACKAGE=vyatta-yggdrasil
+PKGNAME?=vyatta-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/name.sh --bare)
 PKGARCH?=mipsel
+PKGVERSION?=$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/version.sh --bare)
 
 BUILDDIR_YGG?=/tmp/yggdrasil
 
@@ -35,24 +36,18 @@ build-cross: yggdrasilclone yggdrasilbuild-cross yggdrasilstage
 build-native: yggdrasilclone yggdrasilbuild-native yggdrasilstage
 
 package:
+	@echo "Packaging $(PKGNAME) version $(PKGVERSION) for $(PKGARCH)..."
 	@sed -i "s/^Architecture: .*/Architecture: $(PKGARCH)/" debian/control || \
 		sed -i "" "s/^Architecture: .*/Architecture: $(PKGARCH)/" debian/control
-	@sed -i "s/^Version: .*/Version: $(shell cd $(BUILDDIR_YGG) && sh contrib/semver/version.sh --bare)/" debian/control || \
-		sed -i "" "s/^Version: .*/Version: $(shell cd $(BUILDDIR_YGG) && sh contrib/semver/version.sh --bare)/" debian/control
-	@if [ "$(BRANCH)" != "master" ]; then \
-		sed -i "s/^Package: .*/Package: vyatta-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/name.sh)/" debian/control || \
-			sed -i "" "s/^Package: .*/Package: vyatta-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/name.sh)/" debian/control; \
-	else \
-		sed -i "s/^Package: .*/Package: vyatta-yggdrasil/" debian/control || \
-			sed -i "" "s/^Package: .*/Package: vyatta-yggdrasil/" debian/control; \
-	fi
-	@sed -i "/^Replaces/ d" debian/control || sed -i "" "/^Replaces/ d" debian/control
-	@[ "$(BRANCH)" != "master" ] && (echo "Replaces: vyatta-yggdrasil" >> debian/control) || true
+	@sed -i "s/^Version: .*/Version: $(PKGVERSION)/" debian/control || \
+		sed -i "" "s/^Version: .*/Version: $(PKGVERSION)/" debian/control
+	@sed -i "s/^Package: .*/Package: $(PKGNAME)/" debian/control || \
+		sed -i "" "s/^Package: .*/Package: $(PKGNAME)/" debian/control
 	@cat debian/control
 	tar czvf ../data.tar.gz opt usr
 	cd debian && tar czvf ../../control.tar.gz *
 	echo 2.0 > ../debian-binary
-	ar -r ../vyatta-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/name.sh)-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/version.sh --bare)-$(PKGARCH).deb ../debian-binary ../control.tar.gz ../data.tar.gz
+	ar -r ../$(PKGNAME)-$(PKGVERSION)-$(PKGARCH).deb ../debian-binary ../control.tar.gz ../data.tar.gz
 
 cleanpackage:
 	rm ../debian-binary

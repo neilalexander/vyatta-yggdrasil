@@ -22,7 +22,7 @@ if [ `ls /config/yggdrasil.*.conf 2>/dev/null | wc -l` -gt 0 ];
 then
     ls /config/yggdrasil.*.conf | awk -v FS="(yggdrasil.|.conf)" '{print $3}' | while read file;
     do
-        systemctl enable yggdrasil@$file
-        systemctl start yggdrasil@$file
+        sudo systemctl enable yggdrasil@$file
+        sudo systemctl start yggdrasil@$file
     done
 fi

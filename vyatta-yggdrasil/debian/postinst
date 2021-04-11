@@ -1,6 +1,6 @@
 #!/bin/sh
 
-systemctl daemon-reload
+sudo systemctl daemon-reload
 
 for f in /config/yggdrasil.*.conf
 do

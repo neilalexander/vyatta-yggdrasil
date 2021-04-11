@@ -19,15 +19,9 @@
 #
 
 PACKAGE=vyatta-yggdrasil
-DESTDIR=/opt/vyatta
-
-TEMPLATECFGDIR=$DESTDIR/share/vyatta-cfg/template
-TEMPLATEOPDIR=$DESTDIR/share/vyatta-op/template
-SBINDIR=$DESTDIR/sbin/
+PKGARCH?=mipsel
 
 BUILDDIR_YGG?=/tmp/yggdrasil
-
-PKGARCH?=mipsel
 
 # cd $(BUILDDIR_YGG) && sh contrib/semver/version.sh | cut -c 2-
 # cd $(BUILDDIR_YGG) && sh contrib/semver/name.sh
@@ -55,7 +49,7 @@ package:
 	@sed -i "/^Replaces/ d" debian/control || sed -i "" "/^Replaces/ d" debian/control
 	@[ "$(BRANCH)" != "master" ] && (echo "Replaces: vyatta-yggdrasil" >> debian/control) || true
 	@cat debian/control
-	tar czvf ../data.tar.gz opt
+	tar czvf ../data.tar.gz opt usr
 	cd debian && tar czvf ../../control.tar.gz *
 	echo 2.0 > ../debian-binary
 	ar -r ../vyatta-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/name.sh)-$(shell cd $(BUILDDIR_YGG) && sh contrib/semver/version.sh --bare)-$(PKGARCH).deb ../debian-binary ../control.tar.gz ../data.tar.gz
@@ -67,8 +61,6 @@ cleanpackage:
 
 yggdrasilclone:
 	@[ "$(BUILDDIR_YGG)" = "/tmp/yggdrasil" ] && git clone -b $(BRANCH) https://github.com/yggdrasil-network/yggdrasil-go $(BUILDDIR_YGG) || true
-	touch $(BUILDDIR_YGG)/yggdrasil
-	touch $(BUILDDIR_YGG)/yggdrasilctl
 
 yggdrasilbuild-cross:
 	@[ "$(PKGARCH)" = "mipsel" ] && (cd $(BUILDDIR_YGG) && GOOS='linux' GOARCH='mipsle' GOMIPS='softfloat' ./build) || true
@@ -80,8 +72,9 @@ yggdrasilbuild-native:
 	cd $(BUILDDIR_YGG) && GOOS='linux' ./build
 
 yggdrasilstage:
-	cp $(BUILDDIR_YGG)/yggdrasil opt/vyatta/sbin/yggdrasil
-	cp $(BUILDDIR_YGG)/yggdrasilctl opt/vyatta/sbin/yggdrasilctl
+	mkdir -p usr/local/bin
+	cp $(BUILDDIR_YGG)/yggdrasil usr/local/bin/yggdrasil
+	cp $(BUILDDIR_YGG)/yggdrasilctl usr/local/bin/yggdrasilctl
 
 clean:
 	rm -rf sbin/yggdrasil

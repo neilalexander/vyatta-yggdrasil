@@ -20,62 +20,15 @@
 
 if [ ! -z $1 ];
 then
-    if [ `pgrep -fc "yggdrasil -useconffile.*$1"` -gt 0 ];
-    then
-        pgrep -f "yggdrasil -useconffile.*$1" | while read pid;
-        do
-            echo -n "Stopping yggdrasil interface $1... "
-            kill $pid
-            secs=1
-            while kill -0 $pid 2>/dev/null && [ $secs -le 5 ];
-            do
-                echo -n "$secs... "
-                sleep 1
-                ((secs++))
-            done
-            if kill -0 $pid 2>/dev/null;
-            then
-              kill -9 $pid 2>/dev/null
-              echo "Killed."
-            else
-              echo "OK."
-            fi
-        done
-    fi
-
-    if [ `ls /config/yggdrasil.$1.conf 2>/dev/null | wc -l` -gt 0 ];
-    then
-        echo -n "Starting yggdrasil interface $1... "
-        setsid nice -5 /opt/vyatta/sbin/yggdrasil -useconffile /config/yggdrasil.$1.conf >/tmp/yggdrasil.$1.log 2>&1 & disown
-        if [ $? -eq 0 ]; then echo "OK."; else echo "failed."; fi
-    fi
+    echo "Restarting yggdrasil interface $1..."
+    systemctl restart yggdrasil@$1
 else
-    pgrep -f "yggdrasil -useconffile" | while read pid;
-    do
-        echo -n "Stopping yggdrasil interface... "
-        secs=1
-        while kill -0 $pid 2>/dev/null && [ $secs -le 5 ];
-        do
-            echo -n "$secs... "
-            sleep 1
-            ((secs++))
-        done
-        if kill -0 $pid 2>/dev/null;
-        then
-          kill -9 $pid 2>/dev/null
-          echo "Killed."
-        else
-          echo "OK."
-        fi
-    done
-
     if [ `ls /config/yggdrasil.*.conf 2>/dev/null | wc -l` -gt 0 ];
     then
         ls /config/yggdrasil.*.conf | awk -v FS="(yggdrasil.|.conf)" '{print $3}' | while read file;
         do
-            echo -n "Starting yggdrasil interface $file... "
-            setsid nice -5 /opt/vyatta/sbin/yggdrasil -useconffile /config/yggdrasil.$file.conf >/tmp/yggdrasil.$file.log 2>&1 & disown
-            if [ $? -eq 0 ]; then echo "OK."; else echo "failed."; fi
+            echo "Restarting yggdrasil interface $1..."
+            systemctl restart yggdrasil@$file
         done
     fi
 fi

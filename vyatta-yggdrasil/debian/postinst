@@ -11,8 +11,7 @@ do
   echo "Backing up configuration file to $f.`date +%Y%m%d`"
   cp $f $f.`date +%Y%m%d`
   echo "Normalising $f"
-  /opt/vyatta/sbin/yggdrasil -useconffile $f.`date +%Y%m%d` -normaliseconf > $f
+  /usr/local/bin/yggdrasil -useconffile $f.`date +%Y%m%d` -normaliseconf > $f
 done
 
-ln -fs /opt/vyatta/sbin/yggdrasilctl /usr/local/bin/yggdrasilctl
 sg users -c "/opt/vyatta/sbin/vyatta-restart-yggdrasil"

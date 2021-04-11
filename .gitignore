@@ -2,5 +2,5 @@
 *.deb
 debian-binary
 *.tar.gz
-vyatta-yggdrasil/opt/vyatta/sbin/yggdrasil
-vyatta-yggdrasil/opt/vyatta/sbin/yggdrasilctl
+vyatta-yggdrasil/usr/local/bin/yggdrasil
+vyatta-yggdrasil/usr/local/bin/yggdrasilctl

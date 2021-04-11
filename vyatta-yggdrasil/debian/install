@@ -1,2 +1,3 @@
 opt/vyatta/sbin/* /opt/vyatta/sbin
 opt/vyatta/share/* /opt/vyatta/share
+usr/local/bin/* /usr/local/bin

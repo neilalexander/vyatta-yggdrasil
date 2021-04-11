@@ -54,4 +54,3 @@ commit
 ```
 If you have multiple IPv6 subnets, then they can be configured individually by setting multiple `masquerade from` source ranges. Both private/ULA and public IPv6 subnets are acceptable.
 
-IPv6 masquerade is not supported on VyOS 1.1.x due to missing support in the kernel.

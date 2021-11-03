@@ -1,7 +1,7 @@
 [Unit]
 Description=yggdrasil
-Wants=network.target
-After=network.target
+Wants=network-online.target
+After=network-online.target
 
 [Service]
 Group=vyattacfg
